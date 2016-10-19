@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+    <Product Id="${installer.productCode}" Name="${installer.product}"
+             Language="1033"
+             Version="${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${buildNumber}"
+             Manufacturer="${installer.manufacturer}" UpgradeCode="${installer.upgradeCode}">
+ 
+        <Package InstallerVersion="${installer.windows_installer_version}"
+                 Compressed="yes" InstallScope="perMachine" />
+ 
+        <Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+ 
+        <Feature Id="Complete" Level="1">
+            <ComponentRef Id="cmp_test_dir" />
+            <ComponentRef Id="cmp_file_version_txt" />
+        </Feature>
+        
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="ProgramFilesFolder">
+                <Directory Id="manufacturer_dir" Name="${installer.manufacturer}">
+                    <Directory Id="INSTALLLOCATION" Name="${installer.product}">
+                        <Directory Id="dir_test" Name="logs">
+                            <Component Id="cmp_test_dir" Guid="01234567-89AB-CDEF-0123-456789ABCDE5">
+                                <CreateFolder></CreateFolder>
+                                <RemoveFolder Id="rem_dir_test" Directory="dir_test" On="uninstall" />
+                            </Component>
+                            <Component Id="cmp_file_version_txt"
+                                       UninstallWhenSuperseded="yes" Guid="01234567-89AB-CDEF-0123-456789ABCDE1">
+                                <File Id="file_version_txt" Source="${project.build.directory}/classes/version.txt" KeyPath="yes" />
+                            </Component>
+                        </Directory>
+                    </Directory>
+                </Directory>
+            </Directory>
+        </Directory>      
+    </Product>
+</Wix>

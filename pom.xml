@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.github.wix-maven-example</groupId>
+    <artifactId>wix-maven-plugin-example</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>msi</packaging>
+    <properties>
+        <wix.version>3.9.2</wix.version>
+        <wix.locales>1033:en-US</wix.locales>
+        <installer.manufacturer>Wix Maven Plugin</installer.manufacturer>
+        <installer.product>Wix Maven Example</installer.product>
+        <installer.upgradeCode>01234567-89AB-CDEE-0123-456789ABCDEE</installer.upgradeCode>
+        <installer.productCode>01234567-89AB-CDEF-0123-456789ABCDEF</installer.productCode>
+        <installer.windows_installer_version>34</installer.windows_installer_version>
+        <buildNumber>1</buildNumber>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.github.wix-maven</groupId>
+                <artifactId>wix-maven-plugin</artifactId>
+                <version>0.2.0-SNAPSHOT</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <useResponseFile>false</useResponseFile>
+                    <platforms>
+                        <arch>x86</arch>
+                    </platforms>  
+                    <wxsInputDirectory>target/classes/wixobj/Release/x86</wxsInputDirectory>
+                    <includes>
+                        <include>**/*.wxs</include>
+                    </includes>
+                    <!--<intDirectory>target/test</intDirectory>-->
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.12</version>
+                <executions>
+                    <execution>
+                        <id>parse-version</id>
+                        <goals>
+                            <goal>parse-version</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>  
+    
+    <dependencies>
+        <dependency>
+            <groupId>org.wixtoolset</groupId>
+            <artifactId>wix-toolset</artifactId>
+            <version>${wix.version}</version>
+            <scope>provided</scope>
+        </dependency>
+<!--        <dependency>
+            <groupId>org.wixtoolset</groupId>
+            <artifactId>wix-toolset</artifactId>
+            <version>${wix.version}</version>
+            <classifier>WixIISExtension</classifier>
+            <scope>provided</scope>
+            <type>wixext</type>
+        </dependency>-->
+    </dependencies>
+</project>
