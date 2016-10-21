@@ -13,6 +13,7 @@
         <Feature Id="Complete" Level="1">
             <ComponentRef Id="cmp_test_dir" />
             <ComponentRef Id="cmp_file_version_txt" />
+            <ComponentGroupRef Id="dir_heat" />
         </Feature>
         
         <Directory Id="TARGETDIR" Name="SourceDir">
@@ -28,6 +29,7 @@
                                        UninstallWhenSuperseded="yes" Guid="01234567-89AB-CDEF-0123-456789ABCDE1">
                                 <File Id="file_version_txt" Source="${project.build.directory}/classes/version.txt" KeyPath="yes" />
                             </Component>
+                            <Directory Id="HarvestDir" />
                         </Directory>
                     </Directory>
                 </Directory>

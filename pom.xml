@@ -6,6 +6,8 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>msi</packaging>
     <properties>
+        <wixtools.version>3.9.2</wixtools.version>
+        <wixtools.groupId>org.wixtoolset.maven</wixtools.groupId>
         <wix.version>3.9.2</wix.version>
         <wix.locales>1033:en-US</wix.locales>
         <installer.manufacturer>Wix Maven Plugin</installer.manufacturer>
@@ -24,7 +26,11 @@
                 <version>0.2.0-SNAPSHOT</version>
                 <extensions>true</extensions>
                 <configuration>
+                    <harvestType>dir</harvestType>
+                    <!--<harvestSourceVar>SourceVar</harvestSourceVar>-->
+                    <harvestDirectoryRef>HarvestDir</harvestDirectoryRef>
                     <useResponseFile>false</useResponseFile>
+                    <definitions>dir_heat=${basedir}/target/heat</definitions>
                     <platforms>
                         <arch>x86</arch>
                     </platforms>  
@@ -48,6 +54,27 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.basedir}/target/heat</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/heat</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin> 
         </plugins>
         <resources>
             <resource>
@@ -64,7 +91,28 @@
             <version>${wix.version}</version>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>
+        <dependency>
+            <groupId>${wixtools.groupId}</groupId>
+            <artifactId>wix-toolset</artifactId>
+            <version>${wixtools.version}</version>
+            <type>wixext</type>
+            <classifier>WixIISExtension</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${wixtools.groupId}</groupId>
+            <artifactId>wix-toolset</artifactId>
+            <version>${wixtools.version}</version>
+            <type>wixext</type>
+            <classifier>WixUtilExtension</classifier>
+        </dependency>
+        <dependency>
+            <groupId>${wixtools.groupId}</groupId>
+            <artifactId>wix-toolset</artifactId>
+            <version>${wixtools.version}</version>
+            <type>wixext</type>
+            <classifier>WixVSExtension</classifier>
+        </dependency>
+        <!--        <dependency>
             <groupId>org.wixtoolset</groupId>
             <artifactId>wix-toolset</artifactId>
             <version>${wix.version}</version>
